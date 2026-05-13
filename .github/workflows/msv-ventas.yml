@@ -31,19 +31,19 @@ jobs:
       - name: Deploy en EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST_ventaS }}
+          host: ${{ secrets.EC2_HOST_VENTAS }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY_ventaS }} 
+          key: ${{ secrets.EC2_SSH_KEY_VENTAS }} 
           proxy_host: ${{ secrets.FRONTEND_HOST }}
           proxy_username: ${{ secrets.EC2_USER }}
           proxy_key: ${{ secrets.FRONTEND_SSH_KEY }}
           script: |
-            cd ~/ventas-backend
-            echo "DB_ROOT_PASSWORD=Pass1234$" > .env
+            cd ~/back-ventas/Springboot-API-REST
+            echo "MYSQL_ROOT_PASSWORD=Pass1234$" > .env
             echo "DB_NAME=bd_ventas" >> .env
             echo "DB_USERNAME=user_ventas" >> .env
             echo "DB_PASSWORD=ventas1234$" >> .env
             docker pull rodribaeza/ventas-backend:latest
-            docker compose down app
-            docker compose up -d app
+            docker compose down back-ventas
+            docker compose up -d back-ventas
             docker image prune -f
